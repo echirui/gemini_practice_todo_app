@@ -20,4 +20,5 @@ issue.txt
 .gemini
 
 # pr
-pr
+pr/*
+!pr/.gitkeep
