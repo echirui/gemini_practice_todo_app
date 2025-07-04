@@ -32,8 +32,8 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
         </button>
       </div>
       {isOpen && todo.content && (
-        <div style={{ marginTop: '10px', padding: '10px', backgroundColor: '#f9f9f9' }}>
-          <p>{todo.content}</p>
+        <div style={{ marginTop: '10px', padding: '10px', backgroundColor: 'rgba(255, 255, 255, 0.15)', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+          <p style={{ color: 'white' }}>{todo.content}</p>
         </div>
       )}
     </div>
