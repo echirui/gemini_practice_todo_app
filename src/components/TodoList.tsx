@@ -1,59 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import type { Todo } from '../types/todo';
+import TaskItem from './TaskItem';
 
 interface TodoListProps {
   todos: Todo[];
+  onToggle: (id: number, completed: boolean) => void;
+  onDelete: (id: number) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos }) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'completed'>('all');
-
-  const filteredTodos = todos.filter(todo => {
-    if (activeTab === 'pending') {
-      return !todo.completed;
-    }
-    if (activeTab === 'completed') {
-      return todo.completed;
-    }
-    return true; // 'all' tab
-  });
-
+const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete }) => {
   return (
-    <div className="todo-container">
-      <div className="tabs">
-        <button
-          className={activeTab === 'all' ? 'active' : ''}
-          onClick={() => setActiveTab('all')}
-        >
-          すべて
-        </button>
-        <button
-          className={activeTab === 'pending' ? 'active' : ''}
-          onClick={() => setActiveTab('pending')}
-        >
-          未実施
-        </button>
-        <button
-          className={activeTab === 'completed' ? 'active' : ''}
-          onClick={() => setActiveTab('completed')}
-        >
-          実施済み
-        </button>
-      </div>
-      <ul className="todo-list">
-        {filteredTodos.map((todo) => (
-          <li key={todo.id} className={todo.completed ? 'completed' : ''}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              readOnly
-              aria-label={todo.title}
-            />
-            <span>{todo.title}</span>
-          </li>
-        ))}
-      </ul>
-      <button className="add-todo-button">+</button>
+    <div style={{ width: '100%', maxWidth: '500px' }}>
+      {todos.map((todo) => (
+        <TaskItem key={todo.id} todo={todo} onToggle={onToggle} onDelete={onDelete} />
+      ))}
     </div>
   );
 };

@@ -1,7 +1,9 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text, blob } from "drizzle-orm/sqlite-core";
 
-export const guestBook = sqliteTable("guestBook", {
-  id: integer().primaryKey({ autoIncrement: true }),
-  name: text().notNull(),
-  email: text().notNull().unique(),
+export const tasks = sqliteTable("tasks", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  content: text("content"),
+  completed: integer("completed", { mode: "boolean" }).notNull().default(false),
+  createdAt: blob("created_at", { mode: "timestamp" }).notNull(),
 });

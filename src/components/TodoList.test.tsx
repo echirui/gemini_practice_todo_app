@@ -1,42 +1,36 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import TodoList from './TodoList';
 import type { Todo } from '../types/todo';
 
 describe('TodoList', () => {
-  it('renders multiple todo items', () => {
-    const todos: Todo[] = [
-      { id: '1', title: 'Todo 1', completed: false },
-      { id: '2', title: 'Todo 2', completed: true },
-    ];
+  const mockOnToggle = vi.fn();
+  const mockOnDelete = vi.fn();
 
-    render(<TodoList todos={todos} />);
+  const todos: Todo[] = [
+    { id: 1, title: 'Todo 1', content: '', completed: false, createdAt: new Date().toISOString() },
+    { id: 2, title: 'Todo 2', content: 'content', completed: true, createdAt: new Date().toISOString() },
+  ];
+
+  it('renders multiple todo items', () => {
+    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
 
     expect(screen.getByText('Todo 1')).toBeInTheDocument();
     expect(screen.getByText('Todo 2')).toBeInTheDocument();
   });
 
   it('displays todo title and completed status', () => {
-    const todos: Todo[] = [
-      { id: '1', title: 'Buy groceries', completed: false },
-      { id: '2', title: 'Walk the dog', completed: true },
-    ];
+    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
 
-    render(<TodoList todos={todos} />);
+    const todo1Elements = screen.getAllByText('Todo 1');
+    const todo1 = todo1Elements[0];
+    expect(todo1).toBeInTheDocument();
+    expect(todo1.closest('div[style*="opacity: 1"]')).toBeInTheDocument();
 
-    const buyGroceries = screen.getByText('Buy groceries');
-    expect(buyGroceries).toBeInTheDocument();
-    expect(buyGroceries.closest('li')).not.toHaveClass('completed');
-
-    const walkTheDog = screen.getByText('Walk the dog');
-    expect(walkTheDog).toBeInTheDocument();
-    expect(walkTheDog.closest('li')).toHaveClass('completed');
-
-    const checkbox1 = screen.getByRole('checkbox', { name: 'Buy groceries' });
-    expect(checkbox1).not.toBeChecked();
-
-    const checkbox2 = screen.getByRole('checkbox', { name: 'Walk the dog' });
-    expect(checkbox2).toBeChecked();
+    const todo2Elements = screen.getAllByText('Todo 2');
+    const todo2 = todo2Elements[0];
+    expect(todo2).toBeInTheDocument();
+    expect(todo2.closest('div[style*="opacity: 0.5"]')).toBeInTheDocument();
   });
 });
