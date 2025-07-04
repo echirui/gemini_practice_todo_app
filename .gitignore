@@ -9,13 +9,16 @@
 # Cloudflare
 .mf
 .wrangler
+.env
 
 # review
 reviews/*
 !reviews/.gitkeep
+issue.txt
 
 # gemini
 .gemini
 
 # pr
-pr
+pr/*
+!pr/.gitkeep

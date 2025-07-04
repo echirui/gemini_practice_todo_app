@@ -1,59 +1,40 @@
 import React, { useState } from 'react';
 import type { Todo } from '../types/todo';
+import TaskItem from './TaskItem';
+import TaskModal from './TaskModal';
 
 interface TodoListProps {
   todos: Todo[];
+  onToggle: (id: number, completed: boolean) => void;
+  onDelete: (id: number) => void;
+  onAddTask: (title: string, content: string) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos }) => {
-  const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'completed'>('all');
+const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, onAddTask }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const filteredTodos = todos.filter(todo => {
-    if (activeTab === 'pending') {
-      return !todo.completed;
-    }
-    if (activeTab === 'completed') {
-      return todo.completed;
-    }
-    return true; // 'all' tab
-  });
+  const handleSaveTask = (title: string, content: string) => {
+    onAddTask(title, content);
+    setIsModalOpen(false);
+  };
 
   return (
-    <div className="todo-container">
-      <div className="tabs">
-        <button
-          className={activeTab === 'all' ? 'active' : ''}
-          onClick={() => setActiveTab('all')}
-        >
-          すべて
-        </button>
-        <button
-          className={activeTab === 'pending' ? 'active' : ''}
-          onClick={() => setActiveTab('pending')}
-        >
-          未実施
-        </button>
-        <button
-          className={activeTab === 'completed' ? 'active' : ''}
-          onClick={() => setActiveTab('completed')}
-        >
-          実施済み
-        </button>
-      </div>
-      <ul className="todo-list">
-        {filteredTodos.map((todo) => (
-          <li key={todo.id} className={todo.completed ? 'completed' : ''}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              readOnly
-              aria-label={todo.title}
-            />
-            <span>{todo.title}</span>
-          </li>
-        ))}
-      </ul>
-      <button className="add-todo-button">+</button>
+    <div className="todo-list-container">
+      {todos.map((todo) => (
+        <TaskItem key={todo.id} todo={todo} onToggle={onToggle} onDelete={onDelete} />
+      ))}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="add-todo-button"
+      >
+        +
+      </button>
+      {isModalOpen && (
+        <TaskModal
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSaveTask}
+        />
+      )}
     </div>
   );
 };

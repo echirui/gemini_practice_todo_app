@@ -7,11 +7,24 @@
 
 html,
 body {
-  @apply bg-gray-100 dark:bg-gray-950; /* 背景色を少し明るく */
+  background-color: rgba(240, 240, 240, 0.8); /* 白を基調とした明るい背景 */
+  backdrop-filter: blur(5px); /* ガラスのようなぼかし効果 */
+  -webkit-backdrop-filter: blur(5px); /* Safari対応 */
 
   @media (prefers-color-scheme: dark) {
+    background-color: rgba(30, 30, 30, 0.8); /* ダークモードでの背景色 */
     color-scheme: dark;
   }
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* 上に寄せる */
+  min-height: 100vh;
+  padding: 20px;
+  padding-top: 50px; /* 上から少し間隔を空ける */
 }
 
 .todo-container {
@@ -23,6 +36,13 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
   position: relative; /* +ボタンの配置用 */
+}
+
+.todo-list-container {
+  width: 100%;
+  max-width: 500px;
+  min-height: 200px; /* タスクリストの最小高さを設定 */
+  overflow-y: auto; /* タスクが多い場合にスクロール可能にする */
 }
 
 .tabs {
@@ -45,6 +65,12 @@ body {
 .tabs button.active {
   color: #007bff; /* アクティブなタブの色 */
   border-bottom-color: #007bff;
+  transform: translateY(-2px); /* 選択エフェクト */
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2); /* 選択エフェクト */
+}
+
+.tabs button:hover {
+  color: #007bff; /* ホバーエフェクト */
 }
 
 .todo-list {
@@ -75,22 +101,21 @@ body {
 }
 
 .add-todo-button {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   background-color: #007bff; /* 青を基調 */
   color: white;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* フロート感 */
-  cursor: pointer;
   border: none;
-  transition: background-color 0.3s ease;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* フロート感 */
 }
 
 .add-todo-button:hover {
