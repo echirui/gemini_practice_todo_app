@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import TodoList from './TodoList';
-import { Todo } from '../types/todo';
+import type { Todo } from '../types/todo';
 
 describe('TodoList', () => {
   it('renders multiple todo items', () => {

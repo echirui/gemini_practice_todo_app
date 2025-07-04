@@ -11,8 +11,8 @@
 .wrangler
 
 # review
-review/*
-!review/.gitkeep
+reviews/*
+!reviews/.gitkeep
 
 # gemini
 .gemini

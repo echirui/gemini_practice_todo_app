@@ -37,7 +37,7 @@
 
 ## 主なコマンド
 
-- `npm run dev`: 開発サーバーを起動します (Vite + Wrangler)
+- `npm run dev`: 開発サーバーを起動します (Vite + Wrangler)。このコマンドはバックグラウンドで実行されます。
 - `npm run build`: 本番用にプロジェクトをビルドします
 - `npm run test`: Vitestによる単体テストを実行します
 - `npm run test:e2e`: PlaywrightによるE2Eテストを実行します
