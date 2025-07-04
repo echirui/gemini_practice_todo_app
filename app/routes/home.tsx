@@ -26,7 +26,8 @@ export default function Home() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content }),
     });
-    const newTask: Todo = await response.json();
+    const newTasks: Todo[] = await response.json();
+    const newTask = newTasks[0];
     setTodos([...todos, newTask]);
   };
 

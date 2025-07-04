@@ -23,14 +23,14 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
       left: 0,
       right: 0,
       bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      backgroundColor: 'rgba(0,0,0,0.7)', // Darker overlay
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000 // Ensure modal is on top
     }}>
       <div style={{
-        background: 'rgba(255, 255, 255, 0.8)', // White with transparency
+        background: 'rgba(255, 255, 255, 0.15)', // More transparent white
         padding: '30px',
         borderRadius: '15px', // More rounded corners
         width: '90%',
@@ -44,7 +44,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
         gap: '15px',
         boxSizing: 'border-box'
       }}>
-        <h2 style={{ margin: '0 0 10px 0', color: '#333' }}>Add Task</h2>
+        <h2 style={{ margin: '0 0 10px 0', color: 'white' }}>Add Task</h2>
         <input
           type="text"
           value={title}
@@ -54,7 +54,9 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
             width: '100%',
             padding: '10px',
             borderRadius: '8px',
-            border: '1px solid #ddd',
+            border: '1px solid rgba(255, 255, 255, 0.3)', // Lighter border
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', // Transparent background
+            color: 'white', // White text
             boxSizing: 'border-box',
             fontSize: '16px'
           }}
@@ -67,7 +69,9 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
             width: '100%',
             padding: '10px',
             borderRadius: '8px',
-            border: '1px solid #ddd',
+            border: '1px solid rgba(255, 255, 255, 0.3)', // Lighter border
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', // Transparent background
+            color: 'white', // White text
             boxSizing: 'border-box',
             minHeight: '120px',
             fontSize: '16px',
@@ -81,10 +85,10 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
               padding: '10px 20px',
               borderRadius: '8px',
               border: 'none',
-              backgroundColor: '#f0f0f0',
+              backgroundColor: 'rgba(255, 255, 255, 0.3)', // Transparent background
               cursor: 'pointer',
               fontSize: '16px',
-              color: '#333'
+              color: 'white' // White text
             }}
           >
             Cancel
