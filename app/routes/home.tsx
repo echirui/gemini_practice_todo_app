@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Todo } from '~/types/todo';
 import TodoList from '~/components/TodoList';
-import AddTaskButton from '~/components/AddTaskButton';
-import TaskModal from '~/components/TaskModal';
 import Tabs from '~/components/Tabs';
 
 export function meta() {
@@ -14,7 +12,6 @@ export function meta() {
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'active' | 'completed'>('all');
 
   useEffect(() => {
@@ -61,12 +58,10 @@ export default function Home() {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
-      <h1 style={{ color: '#333', marginBottom: '20px' }}>My Todos</h1>
+    <div className="main-container">
+      <h1>My Todos</h1>
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
-      <TodoList todos={filteredTodos} onToggle={handleToggleTask} onDelete={handleDeleteTask} />
-      <AddTaskButton onClick={() => setIsModalOpen(true)} />
-      {isModalOpen && <TaskModal onClose={() => setIsModalOpen(false)} onSave={handleAddTask} />}
+      <TodoList todos={filteredTodos} onToggle={handleToggleTask} onDelete={handleDeleteTask} onAddTask={handleAddTask} />
     </div>
   );
 }

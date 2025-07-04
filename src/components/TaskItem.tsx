@@ -11,7 +11,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', opacity: todo.completed ? 0.5 : 1, transition: 'opacity 0.5s' }}>
+    <div data-testid="task-item-container" style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', opacity: todo.completed ? 0.5 : 1, transition: 'opacity 0.5s' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div onClick={() => todo.content && setIsOpen(!isOpen)} style={{ cursor: todo.content ? 'pointer' : 'default' }}>
           <input

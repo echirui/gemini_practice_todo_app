@@ -14,6 +14,15 @@ body {
   }
 }
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
 .todo-container {
   max-width: 600px; /* 横幅を広げる */
   margin: 20px auto;
@@ -23,6 +32,11 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
   position: relative; /* +ボタンの配置用 */
+}
+
+.todo-list-container {
+  width: 100%;
+  max-width: 500px;
 }
 
 .tabs {
@@ -75,22 +89,21 @@ body {
 }
 
 .add-todo-button {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   background-color: #007bff; /* 青を基調 */
   color: white;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* フロート感 */
-  cursor: pointer;
   border: none;
-  transition: background-color 0.3s ease;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* フロート感 */
 }
 
 .add-todo-button:hover {

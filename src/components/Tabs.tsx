@@ -7,10 +7,25 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ activeTab, onTabChange }) => {
   return (
-    <div>
-      <button onClick={() => onTabChange('all')} disabled={activeTab === 'all'}>All</button>
-      <button onClick={() => onTabChange('active')} disabled={activeTab === 'active'}>Active</button>
-      <button onClick={() => onTabChange('completed')} disabled={activeTab === 'completed'}>Completed</button>
+    <div className="tabs">
+      <button
+        className={activeTab === 'all' ? 'active' : ''}
+        onClick={() => onTabChange('all')}
+      >
+        All
+      </button>
+      <button
+        className={activeTab === 'active' ? 'active' : ''}
+        onClick={() => onTabChange('active')}
+      >
+        Active
+      </button>
+      <button
+        className={activeTab === 'completed' ? 'active' : ''}
+        onClick={() => onTabChange('completed')}
+      >
+        Completed
+      </button>
     </div>
   );
 };

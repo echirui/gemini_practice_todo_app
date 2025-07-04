@@ -20,12 +20,12 @@ describe('Tabs', () => {
     expect(screen.getByRole('button', { name: 'Completed' })).toBeInTheDocument();
   });
 
-  it('disables the active tab', () => {
+  it('applies active class to the active tab', () => {
     render(<Tabs activeTab="active" onTabChange={mockOnTabChange} />);
 
-    expect(screen.getByRole('button', { name: 'All' })).toBeEnabled();
-    expect(screen.getByRole('button', { name: 'Active' })).toBeDisabled();
-    expect(screen.getByRole('button', { name: 'Completed' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'All' })).not.toHaveClass('active');
+    expect(screen.getByRole('button', { name: 'Active' })).toHaveClass('active');
+    expect(screen.getByRole('button', { name: 'Completed' })).not.toHaveClass('active');
   });
 
   it('calls onTabChange with the correct tab when a tab is clicked', () => {

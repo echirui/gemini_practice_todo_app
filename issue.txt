@@ -1,0 +1,48 @@
+# Issue 11: デザイン修正
+
+## 概要
+Issue #7 で指摘されたデザインと、Issue #3 で言及されたポップアップ画面（TaskModal）のデザインを適用する。特に、TaskModalはガラスのような透明感のある白を基調としたデザインにする。
+
+## 関連Issue
+- Issue #7: 「+」ボタンの追加、「実施済み」と「未実施」を分けるタブの追加、「MyTodos」のフォント色調整、横幅の調整（日本語18文字表示対応）
+- Issue #3: マテリアルデザイン、ガラスのような透明感、白を基調とした色味、オブジェクトのセンタリング
+
+## 実装計画
+
+### フェーズ1: TaskModalのデザイン修正 (Issue #3 関連)
+1.  **`src/components/TaskModal.tsx` の修正:**
+    *   背景色を白基調にし、透明感を出すために `rgba` を使用して `backgroundColor` を調整する。
+    *   `boxShadow` を追加して浮遊感を出す。
+    *   `borderRadius` を調整して角を丸くする。
+    *   モーダル全体を中央に配置するために、親要素のスタイルを調整する（`display: flex`, `alignItems: center`, `justifyContent: center` は既に設定済みだが、必要に応じて微調整）。
+    *   入力フィールド (`input`, `textarea`) のデザインもマテリアルデザインに合わせる（ボーダー、フォーカス時のスタイルなど）。
+    *   ボタンのデザインも調整する。
+
+### フェーズ2: TodoListの機能とデザイン修正 (Issue #7 関連)
+1.  **「+」ボタンの追加:**
+    *   `src/components/TodoList.tsx` に「+」ボタンを追加する。
+    *   ボタンは青色を基調とし、フロート（浮動）デザインにする（`position: fixed`, `bottom`, `right`, `backgroundColor`, `borderRadius`, `boxShadow` など）。
+    *   クリック時に `TaskModal` を表示するロジックを実装する。
+
+2.  **「実施済み」と「未実施」を分けるタブの追加:**
+    *   `src/components/TodoList.tsx` または `src/App.tsx` にタブUI (`src/components/Tabs.tsx` を利用) を追加する。
+    *   タブの切り替えに応じて、表示されるTodoアイテムをフィルタリングするロジックを実装する。
+    *   Todoアイテムの完了状態を管理するロジックを更新する。
+
+3.  **「MyTodos」のフォント色調整:**
+    *   `app/app.css` または関連するCSSファイル、`app/root.tsx` または `app/routes/home.tsx` を確認し、「MyTodos」のテキストのフォント色を調整する。
+
+4.  **横幅の調整（日本語18文字表示対応）:**
+    *   `app/app.css` または関連するCSSファイル、`src/components/TodoList.tsx` を確認し、Todoリスト全体の横幅、または個々のTodoアイテムの横幅を調整する。
+    *   レスポンシブデザインを考慮し、必要に応じてメディアクエリを使用する。
+
+### フェーズ3: 全体的な調整とテスト
+1.  **CSSの整理:**
+    *   インラインスタイルを避け、必要に応じて `app/app.css` または新しいCSSモジュールにスタイルを移動する。
+2.  **Vitestによる単体テストの更新:**
+    *   既存のテスト (`Tabs.test.tsx`, `TaskItem.test.tsx`, `TaskModal.test.tsx`, `TodoList.test.tsx`) を修正内容に合わせて更新または追加する。
+3.  **PlaywrightによるE2Eテストの追加:**
+    *   新しい機能（「+」ボタン、タブ切り替え）のE2Eテストを追加する。
+4.  **ビルドとデプロイの確認:**
+    *   `npm run build` でビルドが成功することを確認する。
+    *   `npm run dev` で開発サーバーが正常に起動し、変更が反映されていることを確認する。

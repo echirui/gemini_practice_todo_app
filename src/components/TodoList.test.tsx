@@ -7,6 +7,7 @@ import type { Todo } from '../types/todo';
 describe('TodoList', () => {
   const mockOnToggle = vi.fn();
   const mockOnDelete = vi.fn();
+  const mockOnAddTask = vi.fn();
 
   const todos: Todo[] = [
     { id: 1, title: 'Todo 1', content: '', completed: false, createdAt: new Date().toISOString() },
@@ -14,14 +15,14 @@ describe('TodoList', () => {
   ];
 
   it('renders multiple todo items', () => {
-    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} onAddTask={mockOnAddTask} />);
 
     expect(screen.getByText('Todo 1')).toBeInTheDocument();
     expect(screen.getByText('Todo 2')).toBeInTheDocument();
   });
 
   it('displays todo title and completed status', () => {
-    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} onAddTask={mockOnAddTask} />);
 
     const todo1Elements = screen.getAllByText('Todo 1');
     const todo1 = todo1Elements[0];
