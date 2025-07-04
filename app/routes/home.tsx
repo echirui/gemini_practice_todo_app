@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from '~/types/todo';
+import type { Todo } from '~/types/todo';
 import TodoList from '~/components/TodoList';
 
 export function meta() {
