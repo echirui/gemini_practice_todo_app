@@ -17,8 +17,8 @@ export default function Home() {
   ];
 
   return (
-    <div>
-      <h1>My Todos</h1>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', padding: '20px' }}>
+      <h1 style={{ color: '#333', marginBottom: '20px' }}>My Todos</h1>
       <TodoList todos={todos} />
     </div>
   );

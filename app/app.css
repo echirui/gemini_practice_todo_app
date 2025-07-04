@@ -7,7 +7,7 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-gray-100 dark:bg-gray-950; /* 背景色を少し明るく */
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
@@ -17,13 +17,19 @@ body {
 .todo-list {
   list-style: none;
   padding: 0;
+  background: rgba(255, 255, 255, 0.8); /* 白を基調とした透明感 */
+  backdrop-filter: blur(10px); /* ガラスのようなぼかし効果 */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  margin: 20px auto; /* センタリング用 */
+  max-width: 500px; /* 最大幅を設定 */
 }
 
 .todo-list li {
   display: flex;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  padding: 12px 15px; /* パディングを調整 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* 薄いボーダー */
 }
 
 .todo-list li:last-child {
@@ -37,4 +43,5 @@ body {
 
 .todo-list li input[type="checkbox"] {
   margin-right: 10px;
+  transform: scale(1.2); /* チェックボックスを少し大きく */
 }
