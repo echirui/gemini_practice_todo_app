@@ -9,3 +9,13 @@
 # Cloudflare
 .mf
 .wrangler
+
+# review
+review/*
+!review/.gitkeep
+
+# gemini
+.gemini
+
+# pr
+pr
