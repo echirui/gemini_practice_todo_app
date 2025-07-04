@@ -14,15 +14,42 @@ body {
   }
 }
 
-.todo-list {
-  list-style: none;
-  padding: 0;
+.todo-container {
+  max-width: 600px; /* 横幅を広げる */
+  margin: 20px auto;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.8); /* 白を基調とした透明感 */
   backdrop-filter: blur(10px); /* ガラスのようなぼかし効果 */
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 影を追加 */
-  margin: 20px auto; /* センタリング用 */
-  max-width: 500px; /* 最大幅を設定 */
+  position: relative; /* +ボタンの配置用 */
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #555; /* タブの文字色 */
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.tabs button.active {
+  color: #007bff; /* アクティブなタブの色 */
+  border-bottom-color: #007bff;
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
 }
 
 .todo-list li {
@@ -30,6 +57,7 @@ body {
   align-items: center;
   padding: 12px 15px; /* パディングを調整 */
   border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* 薄いボーダー */
+  word-break: break-all; /* 長い単語の折り返し */
 }
 
 .todo-list li:last-child {
@@ -44,4 +72,54 @@ body {
 .todo-list li input[type="checkbox"] {
   margin-right: 10px;
   transform: scale(1.2); /* チェックボックスを少し大きく */
+}
+
+.add-todo-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #007bff; /* 青を基調 */
+  color: white;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* フロート感 */
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.add-todo-button:hover {
+  background-color: #0056b3;
+}
+
+/* MyTodosのフォント色調整 */
+h1 {
+  color: #333; /* 濃いめの色に調整 */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .todo-container {
+    background: rgba(0, 0, 0, 0.6); /* ダークモードでの背景色 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  .tabs button {
+    color: #bbb;
+  }
+
+  .tabs button.active {
+    color: #66b3ff;
+    border-bottom-color: #66b3ff;
+  }
+
+  h1 {
+    color: #eee; /* ダークモードでのMyTodosの色 */
+  }
 }
