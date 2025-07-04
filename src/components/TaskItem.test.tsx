@@ -27,7 +27,7 @@ describe('TaskItem', () => {
 
     expect(screen.getByText('Test Todo')).toBeInTheDocument();
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Delete task' })).toBeInTheDocument();
   });
 
   it('calls onToggle when checkbox is clicked', () => {
@@ -41,7 +41,7 @@ describe('TaskItem', () => {
   it('calls onDelete when Delete button is clicked', () => {
     render(<TaskItem todo={baseTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete task' }));
     expect(mockOnDelete).toHaveBeenCalledTimes(1);
     expect(mockOnDelete).toHaveBeenCalledWith(baseTodo.id);
   });
