@@ -5,6 +5,9 @@ const pluginReact = require("eslint-plugin-react");
 
 module.exports = [
   {
+    ignores: ["build/**", "worker-configuration.d.ts"],
+  },
+  {
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       parser: tsParser,
@@ -29,6 +32,12 @@ module.exports = [
       "@typescript-eslint/no-namespace": "off",
       "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  {
+    files: ["eslint.config.cjs"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
 ];

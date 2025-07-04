@@ -9,6 +9,7 @@
 # Cloudflare
 .mf
 .wrangler
+.env
 
 # review
 reviews/*

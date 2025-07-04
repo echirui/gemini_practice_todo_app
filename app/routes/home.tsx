@@ -19,8 +19,8 @@ export default function Home() {
 
   useEffect(() => {
     fetch('/api/tasks')
-      .then((res) => res.json())
-      .then((data) => setTodos(data));
+      .then((res) => res.json() as Promise<Todo[]>)
+      .then((data: Todo[]) => setTodos(data));
   }, []);
 
   const handleAddTask = async (title: string, content: string) => {
@@ -29,8 +29,8 @@ export default function Home() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content }),
     });
-    const newTask = await response.json();
-    setTodos([...todos, ...newTask]);
+    const newTask: Todo = await response.json();
+    setTodos([...todos, newTask]);
   };
 
   const handleToggleTask = async (id: number, completed: boolean) => {
@@ -41,8 +41,8 @@ export default function Home() {
         body: JSON.stringify({ completed }),
       }
     );
-    const updatedTask = await response.json();
-    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, ...updatedTask[0] } : todo)));
+    const updatedTask: Todo[] = await response.json();
+    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, ...(updatedTask[0] as Todo) } : todo)));
   };
 
   const handleDeleteTask = async (id: number) => {

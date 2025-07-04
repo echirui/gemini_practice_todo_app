@@ -20,7 +20,7 @@ const requestHandler = createRequestHandler(
   import.meta.env.MODE
 );
 
-const app = new Hono();
+const app = new Hono<{ Bindings: Env }>();
 
 app.use("/api/*", cors());
 
@@ -35,7 +35,7 @@ app.post("/api/tasks", async (c) => {
   const { title, content } = await c.req.json();
   const newTask = await db
     .insert(schema.tasks)
-    .values({ title, content, createdAt: new Date() })
+    .values({ title, content, createdAt: new Date().toISOString() })
     .returning();
   return c.json(newTask);
 });
