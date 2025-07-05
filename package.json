@@ -17,6 +17,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "drizzle-orm": "~0.36.3",
     "hono": "^4.8.3",
     "isbot": "^5.1.27",

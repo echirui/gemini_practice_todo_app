@@ -20,11 +20,11 @@ export default function Home() {
       .then((data: Todo[]) => setTodos(data));
   }, []);
 
-  const handleAddTask = async (title: string, content: string) => {
+  const handleAddTask = async (title: string, content: string, due_date: string | null) => {
     const response = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content }),
+      body: JSON.stringify({ title, content, due_date }),
     });
     const newTasks: Todo[] = await response.json();
     const newTask = newTasks[0];

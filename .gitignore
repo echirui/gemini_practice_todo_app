@@ -15,6 +15,7 @@
 reviews/*
 !reviews/.gitkeep
 issue.txt
+@issue.txt
 
 # gemini
 .gemini

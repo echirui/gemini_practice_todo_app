@@ -14,6 +14,7 @@ describe('TaskItem', () => {
     content: '',
     completed: false,
     createdAt: new Date().toISOString(),
+    due_date: null,
   };
 
   beforeEach(() => {
@@ -78,10 +79,10 @@ describe('TaskItem', () => {
     const { rerender } = render(<TaskItem todo={baseTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
 
     expect(screen.getByTestId('task-item-container')).toHaveStyle('opacity: 1');
-    expect(screen.getByTestId('task-item-container')).toHaveStyle('transition: opacity 0.5s');
+    expect(screen.getByTestId('task-item-container')).toHaveStyle('transition: opacity 0.5s ease-out, transform 0.5s ease-out');
 
     rerender(<TaskItem todo={completedTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
-    expect(screen.getByTestId('task-item-container')).toHaveStyle('opacity: 0.5');
-    expect(screen.getByTestId('task-item-container')).toHaveStyle('transition: opacity 0.5s');
+    expect(screen.getByTestId('task-item-container')).toHaveStyle('opacity: 0');
+    expect(screen.getByTestId('task-item-container')).toHaveStyle('transition: opacity 0.5s ease-out, transform 0.5s ease-out');
   });
 });

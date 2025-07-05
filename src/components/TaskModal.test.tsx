@@ -58,7 +58,7 @@ describe('TaskModal', () => {
     fireEvent.click(saveButton);
 
     expect(mockOnSave).toHaveBeenCalledTimes(1);
-    expect(mockOnSave).toHaveBeenCalledWith('Task to Save', 'Content to Save');
+    expect(mockOnSave).toHaveBeenCalledWith('Task to Save', 'Content to Save', '');
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
