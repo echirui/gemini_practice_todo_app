@@ -12,20 +12,12 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [remainingTime, setRemainingTime] = useState<string | null>(null);
   const [isCompleted, setIsCompleted] = useState(todo.completed);
-  const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
     setIsCompleted(todo.completed);
   }, [todo.completed]);
 
-  useEffect(() => {
-    if (todo.completed && !isFadingOut) {
-      setIsFadingOut(true);
-      setTimeout(() => {
-        onDelete(todo.id);
-      }, 500); // Matches the CSS transition duration
-    }
-  }, [todo.completed, isFadingOut, onDelete, todo.id]);
+  
 
   useEffect(() => {
     if (todo.due_date) {
@@ -59,9 +51,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
         padding: '10px',
         border: '1px solid #ccc',
         borderRadius: '5px',
-        opacity: isFadingOut ? 0 : (isCompleted ? 0.5 : 1), // Fade out completely if fading, dim if completed
-        transform: isFadingOut ? 'translateX(100%)' : 'translateX(0)', // Move right
-        transition: 'opacity 0.5s ease-out, transform 0.5s ease-out', // Smooth transition
+        opacity: (isCompleted ? 0.5 : 1), // Dim if completed
         display: 'flex',
         flexDirection: 'column',
       }}
