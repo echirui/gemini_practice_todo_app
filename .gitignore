@@ -16,10 +16,6 @@ reviews/*
 !reviews/.gitkeep
 issues/*
 !issues/.gitkeep
-issue.txt
-@issue.txt
-issues/*
-!issues/.gitkeep
 
 # gemini
 .gemini
