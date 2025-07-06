@@ -16,10 +16,12 @@ reviews/*
 !reviews/.gitkeep
 issue.txt
 @issue.txt
+issues/*
+!issues/.gitkeep
 
 # gemini
 .gemini
 
-# pr
+# git
 pr/*
 !pr/.gitkeep
