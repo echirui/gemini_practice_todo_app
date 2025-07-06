@@ -84,4 +84,27 @@ describe('TaskItem', () => {
     expect(screen.getByTestId('task-item-container')).toHaveStyle('opacity: 0.5');
   });
 
+  describe('due_date display', () => {
+    it('displays remaining days when due_date is in the future', () => {
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 3);
+      const todoWithDueDate = { ...baseTodo, due_date: futureDate.toISOString() };
+      render(<TaskItem todo={todoWithDueDate} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+      expect(screen.getByText('3 days left')).toBeInTheDocument();
+    });
+
+    it('displays "Overdue" when due_date is in the past', () => {
+      const pastDate = new Date();
+      pastDate.setDate(pastDate.getDate() - 1);
+      const todoWithDueDate = { ...baseTodo, due_date: pastDate.toISOString() };
+      render(<TaskItem todo={todoWithDueDate} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+      expect(screen.getByText('Overdue')).toBeInTheDocument();
+    });
+
+    it('does not display due date info when due_date is null', () => {
+      render(<TaskItem todo={baseTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+      expect(screen.queryByText(/days left/)).not.toBeInTheDocument();
+      expect(screen.queryByText('Overdue')).not.toBeInTheDocument();
+    });
   });
+});
