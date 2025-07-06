@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { Todo } from '~/types/todo';
 
-import type { Todo } from '~/types/todo';
-
 interface TaskModalProps {
   onClose: () => void;
   onSave: (title: string, content: string, due_date?: string | null) => void;
