@@ -10,8 +10,8 @@ describe('TodoList', () => {
   const mockOnAddTask = vi.fn();
 
   const todos: Todo[] = [
-    { id: 1, title: 'Todo 1', content: '', completed: false, createdAt: new Date().toISOString(), due_date: null },
-    { id: 2, title: 'Todo 2', content: 'content', completed: true, createdAt: new Date().toISOString(), due_date: null },
+    { id: 1, title: 'Todo 1', content: '', completed: false, createdAt: new Date().toISOString() },
+    { id: 2, title: 'Todo 2', content: 'content', completed: true, createdAt: new Date().toISOString() },
   ];
 
   it('renders multiple todo items', () => {
@@ -66,7 +66,7 @@ describe('TodoList', () => {
 
       // Check if onAddTask was called correctly
       expect(mockOnAddTask).toHaveBeenCalledTimes(1);
-      expect(mockOnAddTask).toHaveBeenCalledWith('New Task from Flow', 'Flow content', null);
+      expect(mockOnAddTask).toHaveBeenCalledWith('New Task from Flow', 'Flow content');
 
       // The modal should be closed after saving
       expect(screen.queryByText('Add Task')).not.toBeInTheDocument();

@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import type { Todo } from '~/types/todo';
-
 import React, { useState } from 'react';
 
 interface TaskModalProps {
