@@ -14,6 +14,7 @@ const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, onAddTas
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSaveTask = (title: string, content: string, due_date?: string | null) => {
+    onAddTask(title, content, due_date);
     setIsModalOpen(false);
   };
 

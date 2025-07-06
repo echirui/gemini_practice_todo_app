@@ -20,15 +20,17 @@ export default function Home() {
       .then((data: Todo[]) => setTodos(data));
   }, []);
 
-  const handleAddTask = async (title: string, content: string, due_date: string | null) => {
-    const response = await fetch('/api/tasks', {
+  const handleAddTask = (title: string, content: string, due_date?: string | null) => {
+    fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content, due_date }),
-    });
-    const newTasks: Todo[] = await response.json();
-    const newTask = newTasks[0];
-    setTodos([...todos, newTask]);
+    })
+      .then((res) => res.json() as Promise<Todo[]>)
+      .then((newTasks: Todo[]) => {
+        const newTask = newTasks[0];
+        setTodos([...todos, newTask]);
+      });
   };
 
   const handleToggleTask = async (id: number, completed: boolean) => {
