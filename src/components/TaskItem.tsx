@@ -67,6 +67,24 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
           <span style={{ textDecoration: isCompleted ? 'line-through' : 'none' }}>
             {todo.title}
           </span>
+          {todo.due_date && (
+            <span style={{ marginLeft: '10px', fontSize: '0.8em', color: '#888' }}>
+              {(() => {
+                const dueDate = new Date(todo.due_date);
+                const now = new Date();
+                now.setHours(0, 0, 0, 0); // Compare dates only
+                dueDate.setHours(0, 0, 0, 0); // Compare dates only
+
+                const diffTime = dueDate.getTime() - now.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 0) return 'Today';
+                if (diffDays === 1) return 'Tomorrow';
+                if (diffDays > 1) return `${diffDays} days left`;
+                return 'Overdue';
+              })()}
+            </span>
+          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {remainingTime && (

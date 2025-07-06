@@ -1,18 +1,20 @@
+import React, { useState, useEffect } from 'react';
+import type { Todo } from '~/types/todo';
+
 import React, { useState } from 'react';
 
 interface TaskModalProps {
   onClose: () => void;
-  onSave: (title: string, content: string, due_date: string | null) => void;
+  onSave: (title: string, content: string) => void;
 }
 
 const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [due_date, setDueDate] = useState<string>('');
 
   const handleSave = () => {
     if (title.trim()) {
-      onSave(title, content, due_date);
+      onSave(title, content);
       onClose();
     }
   };
@@ -77,21 +79,6 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave }) => {
             minHeight: '120px',
             fontSize: '16px',
             resize: 'vertical'
-          }}
-        />
-        <input
-          type="date"
-          value={due_date}
-          onChange={(e) => setDueDate(e.target.value)}
-          style={{
-            width: '100%',
-            padding: '10px',
-            borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.3)',
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            color: 'white',
-            boxSizing: 'border-box',
-            fontSize: '16px'
           }}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>

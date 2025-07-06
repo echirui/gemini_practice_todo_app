@@ -7,14 +7,13 @@ interface TodoListProps {
   todos: Todo[];
   onToggle: (id: number, completed: boolean) => void;
   onDelete: (id: number) => void;
-  onAddTask: (title: string, content: string, due_date: string | null) => void;
+  onAddTask: (title: string, content: string, due_date?: string | null) => void;
 }
 
 const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, onAddTask }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSaveTask = (title: string, content: string, due_date: string | null) => {
-    onAddTask(title, content, due_date);
+  const handleSaveTask = (title: string, content: string, due_date?: string | null) => {
     setIsModalOpen(false);
   };
 

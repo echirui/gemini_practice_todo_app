@@ -58,7 +58,7 @@ describe('TaskModal', () => {
     fireEvent.click(saveButton);
 
     expect(mockOnSave).toHaveBeenCalledTimes(1);
-    expect(mockOnSave).toHaveBeenCalledWith('Task to Save', 'Content to Save', '');
+    expect(mockOnSave).toHaveBeenCalledWith('Task to Save', 'Content to Save', null);
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
@@ -70,6 +70,50 @@ describe('TaskModal', () => {
     fireEvent.click(saveButton);
 
     expect(mockOnSave).not.toHaveBeenCalled();
-    expect(mockOnClose).not.toHaveBeenCalled();
+        expect(mockOnClose).not.toHaveBeenCalled();
+  });
+
+  describe('with due_date', () => {
+    it('allows entering a due date', () => {
+      render(<TaskModal onClose={mockOnClose} onSave={mockOnSave} />);
+      const dueDateInput = screen.getByLabelText('Due Date');
+      fireEvent.change(dueDateInput, { target: { value: '2025-12-31' } });
+      expect(dueDateInput).toHaveValue('2025-12-31');
+    });
+
+    it('calls onSave with title, content, and due_date when Save is clicked', () => {
+      render(<TaskModal onClose={mockOnClose} onSave={mockOnSave} />);
+      
+      fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Task with Due Date' } });
+      fireEvent.change(screen.getByPlaceholderText('Content (optional)'), { target: { value: 'Content here' } });
+      fireEvent.change(screen.getByLabelText('Due Date'), { target: { value: '2025-12-31' } });
+      
+      fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+      // Check if onSave was called with the correct arguments
+      // Note: The exact time might vary, so we check for the date part.
+      const expectedDate = new Date('2025-12-31').toISOString();
+      expect(mockOnSave).toHaveBeenCalledWith('Task with Due Date', 'Content here', expectedDate);
+      expect(mockOnClose).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('in edit mode', () => {
+    const existingTask = {
+      id: 1,
+      title: 'Existing Task',
+      content: 'Existing Content',
+      completed: false,
+      createdAt: new Date().toISOString(),
+      due_date: new Date('2025-11-20').toISOString(),
+    };
+
+    it('populates fields with existing task data', () => {
+      render(<TaskModal onClose={mockOnClose} onSave={mockOnSave} task={existingTask} />);
+      
+      expect(screen.getByPlaceholderText('Title')).toHaveValue('Existing Task');
+      expect(screen.getByPlaceholderText('Content (optional)')).toHaveValue('Existing Content');
+      expect(screen.getByLabelText('Due Date')).toHaveValue('2025-11-20');
+    });
   });
 });
