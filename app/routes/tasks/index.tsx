@@ -10,7 +10,7 @@ export function meta() {
   ];
 }
 
-export default function Home() {
+export default function TasksIndex() {
   const [tasks, setTasks] = useState<Todo[]>([]);
   const [activeTab, setActiveTab] = useState<'all' | 'active' | 'completed'>('all');
 
