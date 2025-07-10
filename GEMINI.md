@@ -43,6 +43,15 @@
 - `npm run test:e2e`: PlaywrightによるE2Eテストを実行します
 - `npm run deploy`: Cloudflareにデプロイします
 
+### コミットメッセージの作成
+複数行のコミットメッセージを作成する場合、以下の手順でコミットしてください。
+1. コミットメッセージを一時ファイルに書き込みます。
+   `write_file(content="<コミットメッセージ>", file_path="/workspace/commit_message.txt")`
+2. 一時ファイルを指定してコミットします。
+   `git commit -F /workspace/commit_message.txt`
+3. コミット後、一時ファイルを削除します。
+   `rm /workspace/commit_message.txt`
+
 ## コードスタイル
 
 - ESモジュール (`import`/`export`) を使用します。
