@@ -11,13 +11,13 @@ export function meta() {
 }
 
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [tasks, setTasks] = useState<Todo[]>([]);
   const [activeTab, setActiveTab] = useState<'all' | 'active' | 'completed'>('all');
 
   useEffect(() => {
     fetch('/api/tasks')
       .then((res) => res.json() as Promise<Todo[]>)
-      .then((data: Todo[]) => setTodos(data));
+      .then((data: Todo[]) => setTasks(data));
   }, []);
 
   const handleAddTask = async (title: string, content: string, due_date: string | null) => {
@@ -26,29 +26,28 @@ export default function Home() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content, due_date }),
     });
-    const newTasks: Todo[] = await response.json();
-    const newTask = newTasks[0];
-    setTodos([...todos, newTask]);
+    const newTask: Todo = await response.json();
+    setTasks(prevTasks => [...prevTasks, newTask]);
   };
 
-  const handleToggleTask = async (id: number, completed: boolean) => {
-    const response = await fetch(`/api/tasks/${id}`,
+  const handleUpdateTask = async (task: Todo) => {
+    const response = await fetch(`/api/tasks/${task.id}`,
       {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ completed }),
+        body: JSON.stringify(task),
       }
     );
-    const updatedTask: Todo[] = await response.json();
-    setTodos(todos.map((todo) => (todo.id === id ? { ...todo, ...(updatedTask[0] as Todo) } : todo)));
+    const updatedTask: Todo = await response.json();
+    setTasks(prevTasks => prevTasks.map((t) => (t.id === task.id ? updatedTask : t)));
   };
 
   const handleDeleteTask = async (id: number) => {
     await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTasks(prevTasks => prevTasks.filter((todo) => todo.id !== id));
   };
 
-  const filteredTodos = todos.filter(todo => {
+  const filteredTasks = tasks.filter(todo => {
     if (activeTab === 'active') {
       return !todo.completed;
     }
@@ -62,7 +61,7 @@ export default function Home() {
     <div className="main-container">
       <h1>My Todos</h1>
       <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
-      <TodoList todos={filteredTodos} onToggle={handleToggleTask} onDelete={handleDeleteTask} onAddTask={handleAddTask} />
+      <TodoList tasks={filteredTasks} onUpdateTask={handleUpdateTask} onDeleteTask={handleDeleteTask} onAddTask={handleAddTask} />
     </div>
   );
 }

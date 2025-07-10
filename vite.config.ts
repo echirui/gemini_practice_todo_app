@@ -11,8 +11,12 @@ export default defineConfig(({ mode }) => ({
     mode !== 'test' && reactRouter(),
     tsconfigPaths(),
   ].filter(Boolean),
+  server: {
+    port: 8787,
+  },
   test: {
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
+    exclude: ['node_modules', 'dist', '.idea', '.git', '.cache', 'e2e', 'workers'],
   },
 }));

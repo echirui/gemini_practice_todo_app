@@ -7,7 +7,7 @@ ARG TZ
 ENV TZ="$TZ"
 
 # Install basic development tools and iptables/ipset
-RUN apt update && apt install -y less     git     procps     sudo     fzf     zsh     man-db     unzip     gnupg2     gh     iptables     ipset     iproute2     dnsutils     aggregate     jq     wget     curl
+RUN apt update && apt install -y less     git     procps     sudo     fzf     zsh     man-db     unzip     gnupg2     gh     iptables     ipset     iproute2     dnsutils     aggregate     jq     wget     curl  lsof
 
 # Ensure default node user has access to /usr/local/share
 RUN mkdir -p /usr/local/share/npm-global && \
@@ -23,10 +23,12 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
 
 # Set `DEVCONTAINER` environment variable to help with orientation
 ENV DEVCONTAINER=true
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 # Create workspace and config directories and set permissions
-RUN mkdir -p /workspace /home/node/.claude && \
-    chown -R node:node /workspace /home/node/.claude
+RUN mkdir -p /workspace /home/node/.gemini && \
+    chown -R node:node /workspace /home/node/.gemini
 
 WORKDIR /workspace
 
@@ -46,19 +48,21 @@ ENV PATH=$PATH:/usr/local/share/npm-global/bin
 ENV SHELL=/bin/zsh
 
 
-
-
 # Install Oh My Zsh
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
-    chown -R node:node /home/node/.oh-my-zsh &&     sed -i '/source $ZSH/oh-my-zsh.sh/d' /home/node/.zshrc &&     echo "source $ZSH/oh-my-zsh.sh" >> /home/node/.zshrc
+RUN git clone https://github.com/ohmyzsh/ohmyzsh.git /home/node/.oh-my-zsh && \
+    chown -R node:node /home/node/.oh-my-zsh && \
+    echo "export ZSH=\"/home/node/.oh-my-zsh\"" > /home/node/.zshrc && \
+    echo "ZSH_THEME=\"agnoster\"" >> /home/node/.zshrc && \
+    echo "source \$ZSH/oh-my-zsh.sh" >> /home/node/.zshrc && \
+    chown node:node /home/node/.zshrc
 
 
 RUN npm install -g @google/gemini-cli
-
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
 USER root
-RUN chmod +x /usr/local/bin/init-firewall.sh && \
-    echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
-    chmod 0440 /etc/sudoers.d/node-firewall
+RUN npx playwright install-deps
+#RUN chmod +x /usr/local/bin/init-firewall.sh && \
+    #echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
+    #chmod 0440 /etc/sudoers.d/node-firewall
 USER node

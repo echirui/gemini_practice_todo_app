@@ -40,6 +40,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     const checked = e.target.checked;
+    setIsCompleted(checked); // Optimistically update the UI
     onToggle(todo.id, checked);
   };
 

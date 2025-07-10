@@ -37,7 +37,7 @@ app.post("/api/tasks", async (c) => {
     .insert(schema.tasks)
     .values({ title, content, createdAt: new Date().toISOString(), due_date })
     .returning();
-  return c.json(newTask);
+  return c.json(newTask[0]);
 });
 
 app.put("/api/tasks/:id", async (c) => {
@@ -49,7 +49,7 @@ app.put("/api/tasks/:id", async (c) => {
     .set({ completed, due_date })
     .where(eq(schema.tasks.id, id))
     .returning();
-  return c.json(updatedTask);
+  return c.json(updatedTask[0]);
 });
 
 app.delete("/api/tasks/:id", async (c) => {

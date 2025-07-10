@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
-import type { Todo } from '../types/todo';
 import TaskItem from './TaskItem';
 import TaskModal from './TaskModal';
+import AddTaskButton from './AddTaskButton';
+import type { Todo } from '../types/todo';
 
 interface TodoListProps {
-  todos: Todo[];
-  onToggle: (id: number, completed: boolean) => void;
-  onDelete: (id: number) => void;
-  onAddTask: (title: string, content: string, due_date?: string | null) => void;
+  tasks: Todo[];
+  onUpdateTask: (task: Todo) => void;
+  onDeleteTask: (id: number) => void;
+  onAddTask: (title: string, content: string, dueDate: string | null) => void;
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, onToggle, onDelete, onAddTask }) => {
+const TodoList: React.FC<TodoListProps> = ({ tasks, onUpdateTask, onDeleteTask, onAddTask }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSaveTask = (title: string, content: string, due_date?: string | null) => {
+  const handleAddTask = (title: string, content: string, dueDate: string | null) => {
+    onAddTask(title, content, dueDate);
     setIsModalOpen(false);
+  };
+
+  const handleToggle = (id: number, completed: boolean) => {
+    const taskToUpdate = tasks.find(t => t.id === id);
+    if (taskToUpdate) {
+      onUpdateTask({ ...taskToUpdate, completed });
+    }
   };
 
   return (
     <div className="todo-list-container">
-      {todos.map((todo) => (
-        <TaskItem key={todo.id} todo={todo} onToggle={onToggle} onDelete={onDelete} />
+      {tasks.map((todo) => (
+        <TaskItem key={todo.id} todo={todo} onToggle={handleToggle} onDelete={onDeleteTask} />
       ))}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="add-todo-button"
-      >
-        +
-      </button>
+      <AddTaskButton onClick={() => setIsModalOpen(true)} />
       {isModalOpen && (
         <TaskModal
           onClose={() => setIsModalOpen(false)}
-          onSave={handleSaveTask}
+          onSave={handleAddTask}
         />
       )}
     </div>

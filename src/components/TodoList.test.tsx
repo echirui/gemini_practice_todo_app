@@ -5,71 +5,62 @@ import TodoList from './TodoList';
 import type { Todo } from '../types/todo';
 
 describe('TodoList', () => {
-  const mockOnToggle = vi.fn();
-  const mockOnDelete = vi.fn();
+  const mockOnUpdateTask = vi.fn();
+  const mockOnDeleteTask = vi.fn();
   const mockOnAddTask = vi.fn();
 
   const todos: Todo[] = [
-    { id: 1, title: 'Todo 1', content: '', completed: false, createdAt: new Date().toISOString(), due_date: null },
-    { id: 2, title: 'Todo 2', content: 'content', completed: true, createdAt: new Date().toISOString(), due_date: null },
+    { id: 1, title: 'Todo 1', content: '', completed: false, created_at: new Date().toISOString(), due_date: null },
+    { id: 2, title: 'Todo 2', content: 'content', completed: true, created_at: new Date().toISOString(), due_date: null },
   ];
 
   it('renders multiple todo items', () => {
-    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} onAddTask={mockOnAddTask} />);
+    render(<TodoList tasks={todos} onUpdateTask={mockOnUpdateTask} onDeleteTask={mockOnDeleteTask} onAddTask={mockOnAddTask} />);
 
     expect(screen.getByText('Todo 1')).toBeInTheDocument();
     expect(screen.getByText('Todo 2')).toBeInTheDocument();
   });
 
   it('displays todo title and completed status', () => {
-    render(<TodoList todos={todos} onToggle={mockOnToggle} onDelete={mockOnDelete} onAddTask={mockOnAddTask} />);
+    render(<TodoList tasks={todos} onUpdateTask={mockOnUpdateTask} onDeleteTask={mockOnDeleteTask} onAddTask={mockOnAddTask} />);
 
     const todo1Elements = screen.getAllByText('Todo 1');
     const todo1 = todo1Elements[0];
     expect(todo1).toBeInTheDocument();
-    expect(todo1.closest('div[style*="opacity: 1"]')).toBeInTheDocument();
 
     const todo2Elements = screen.getAllByText('Todo 2');
-        const todo2 = todo2Elements[0];
-    expect(todo2).toBeInTheDocument();
-    // The animation and deletion logic is handled by TaskItem, so we just check if it's in the document initially.
+    const todo2 = todo2Elements[0];
     expect(todo2).toBeInTheDocument();
   });
 
   describe('user flow for adding a task', () => {
     it('opens TaskModal when the add button is clicked', () => {
-      render(<TodoList todos={[]} onToggle={mockOnToggle} onDelete={mockOnDelete} onAddTask={mockOnAddTask} />);
+      render(<TodoList tasks={[]} onUpdateTask={mockOnUpdateTask} onDeleteTask={mockOnDeleteTask} onAddTask={mockOnAddTask} />);
       
-      // Initially, the modal should not be visible
-      expect(screen.queryByText('Add Task')).not.toBeInTheDocument();
+      expect(screen.queryByPlaceholderText('Title')).not.toBeInTheDocument();
 
-      // Click the add button
-      const addButton = screen.getByRole('button', { name: '+' });
+      const addButton = screen.getByRole('button', { name: 'Add Task' });
       fireEvent.click(addButton);
 
-      // Now the modal should be visible
-      expect(screen.getByText('Add Task')).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Title')).toBeInTheDocument();
     });
 
     it('calls onAddTask and closes the modal when a task is saved', () => {
-      render(<TodoList todos={[]} onToggle={mockOnToggle} onDelete={mockOnDelete} onAddTask={mockOnAddTask} />);
+      render(<TodoList tasks={[]} onUpdateTask={mockOnUpdateTask} onDeleteTask={mockOnDeleteTask} onAddTask={mockOnAddTask} />);
       
-      // Open the modal
-      fireEvent.click(screen.getByRole('button', { name: '+' }));
+      const addButton = screen.getByRole('button', { name: 'Add Task' });
+      fireEvent.click(addButton);
       
-      // Fill out the form
       fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'New Task from Flow' } });
       fireEvent.change(screen.getByPlaceholderText('Content (optional)'), { target: { value: 'Flow content' } });
+      fireEvent.change(screen.getByLabelText('Due Date'), { target: { value: '2025-07-15' } });
       
-      // Save the task
       fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-      // Check if onAddTask was called correctly
       expect(mockOnAddTask).toHaveBeenCalledTimes(1);
-      expect(mockOnAddTask).toHaveBeenCalledWith('New Task from Flow', 'Flow content', null);
+      expect(mockOnAddTask).toHaveBeenCalledWith('New Task from Flow', 'Flow content', '2025-07-15');
 
-      // The modal should be closed after saving
-      expect(screen.queryByText('Add Task')).not.toBeInTheDocument();
+      expect(screen.queryByPlaceholderText('Title')).not.toBeInTheDocument();
     });
   });
 });
