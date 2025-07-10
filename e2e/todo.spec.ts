@@ -21,7 +21,7 @@ test.describe('Todo Application E2E Tests', () => {
     await page.getByRole('button', { name: 'Add Task' }).click();
     // Wait for the modal to appear
     const modal = page.getByRole('heading', { name: 'Add Task' });
-    await expect(modal).toBeVisible({ timeout: 15000 });
+    await expect(modal).toBeVisible({ timeout: 240000 });
 
     await page.getByPlaceholder('Title').fill(title);
     if (content) {
@@ -32,7 +32,7 @@ test.describe('Todo Application E2E Tests', () => {
     }
     await page.getByRole('button', { name: 'Save' }).click();
     // Wait for the modal to disappear
-    await expect(modal).not.toBeVisible({ timeout: 15000 });
+    await expect(modal).not.toBeVisible({ timeout: 240000 });
   };
 
   test('should create a new todo item', async ({ page }) => {

@@ -17,9 +17,12 @@ module.exports = {
     try {
       // Get the testRunPrefix from the environment variable set by Playwright
       const testRunPrefix = process.env.PLAYWRIGHT_TEST_RUN_PREFIX;
+      console.log(`Teardown: PLAYWRIGHT_TEST_RUN_PREFIX = ${testRunPrefix}`);
       if (testRunPrefix) {
         // Execute SQL to delete tasks created during the test run
-        execSync(`wrangler d1 execute DB --command "DELETE FROM tasks WHERE title LIKE '${testRunPrefix}-%'"`, { stdio: 'inherit' });
+        const command = `wrangler d1 execute DB --command "DELETE FROM tasks WHERE title LIKE '${testRunPrefix}-%'"`;
+        console.log(`Teardown: Executing command: ${command}`);
+        execSync(command, { stdio: 'inherit' });
         console.log(`Cleaned up test data with prefix: ${testRunPrefix}`);
       } else {
         console.log('No testRunPrefix found, skipping test data cleanup.');
