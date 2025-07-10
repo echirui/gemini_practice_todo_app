@@ -31,7 +31,9 @@ const TodoList: React.FC<TodoListProps> = ({ tasks, onUpdateTask, onDeleteTask, 
       {tasks.map((todo) => (
         <TaskItem key={todo.id} todo={todo} onToggle={handleToggle} onDelete={onDeleteTask} />
       ))}
-      <AddTaskButton onClick={() => setIsModalOpen(true)} />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <AddTaskButton onClick={() => setIsModalOpen(true)} />
+      </div>
       {isModalOpen && (
         <TaskModal
           onClose={() => setIsModalOpen(false)}

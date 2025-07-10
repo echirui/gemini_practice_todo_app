@@ -5,7 +5,7 @@ const getUniqueId = () => `-${process.env.TEST_WORKER_INDEX || 0}-${Math.random(
 
 test.describe('Todo Application E2E Tests', () => {
   // Use a unique prefix for all tasks in this test suite run
-  const testRunPrefix = `test-${getUniqueId()}`;
+  const testRunPrefix = `test-${Math.random().toString(36).slice(2, 7)}`;
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');

@@ -28,6 +28,11 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:8787",
 
+    /* Pass testRunPrefix to global-setup.cjs */
+    launchOptions: {
+      env: { PLAYWRIGHT_TEST_RUN_PREFIX: `test-${Math.random().toString(36).slice(2, 7)}` },
+    },
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -81,5 +86,6 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 240 * 1000,
   },
-  globalSetup: "./e2e/global-setup.cjs",
+  globalSetup: (await import('./e2e/global-setup.cjs')).setup,
+  globalTeardown: (await import('./e2e/global-setup.cjs')).teardown,
 });
