@@ -59,6 +59,7 @@ test.describe('Todo Application E2E Tests', () => {
     await expect(taskItem).toBeVisible();
 
     // Verify in All list
+    await page.getByRole('button', { name: 'All' }).waitFor({ state: 'visible' });
     await page.getByRole('button', { name: 'All' }).click();
     await expect(taskItem).toBeVisible();
     await expect(taskItem.getByText(title)).toHaveCSS('text-decoration-line', 'line-through');
@@ -91,6 +92,7 @@ test.describe('Todo Application E2E Tests', () => {
     await expect(activeTask2).not.toBeVisible();
 
     // Filter by All
+    await page.getByRole('button', { name: 'All' }).waitFor({ state: 'visible' });
     await page.getByRole('button', { name: 'All' }).click();
     await expect(activeTask1).toBeVisible();
     await expect(activeTask2).toBeVisible();
