@@ -10,8 +10,8 @@ describe('TodoList', () => {
   const mockOnAddTask = vi.fn();
 
   const todos: Todo[] = [
-    { id: 1, title: 'Todo 1', content: '', completed: false, created_at: new Date().toISOString(), due_date: null },
-    { id: 2, title: 'Todo 2', content: 'content', completed: true, created_at: new Date().toISOString(), due_date: null },
+    { id: 1, title: 'Todo 1', content: '', completed: false, createdAt: new Date().toISOString(), due_date: null },
+    { id: 2, title: 'Todo 2', content: 'content', completed: true, createdAt: new Date().toISOString(), due_date: null },
   ];
 
   it('renders multiple todo items', () => {
@@ -54,11 +54,12 @@ describe('TodoList', () => {
       fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'New Task from Flow' } });
       fireEvent.change(screen.getByPlaceholderText('Content (optional)'), { target: { value: 'Flow content' } });
       fireEvent.change(screen.getByLabelText('Due Date'), { target: { value: '2025-07-15' } });
+      fireEvent.change(screen.getByLabelText('Priority'), { target: { value: 'high' } });
       
       fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
       expect(mockOnAddTask).toHaveBeenCalledTimes(1);
-      expect(mockOnAddTask).toHaveBeenCalledWith('New Task from Flow', 'Flow content', '2025-07-15');
+      expect(mockOnAddTask).toHaveBeenCalledWith('New Task from Flow', 'Flow content', '2025-07-15', 'high');
 
       expect(screen.queryByPlaceholderText('Title')).not.toBeInTheDocument();
     });

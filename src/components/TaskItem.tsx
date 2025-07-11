@@ -68,6 +68,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ todo, onToggle, onDelete }) => {
           <span style={{ textDecoration: isCompleted ? 'line-through' : 'none' }}>
             {todo.title}
           </span>
+          {todo.priority && (
+            <span style={{ marginLeft: '10px', fontSize: '0.8em', color: todo.priority === 'high' ? 'red' : todo.priority === 'medium' ? 'orange' : 'green' }}>
+              ({todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1)})
+            </span>
+          )}
           {todo.due_date && (
             <span style={{ marginLeft: '10px', fontSize: '0.8em', color: '#888' }}>
               {(() => {

@@ -4,7 +4,7 @@ module.exports = {
   async setup() {
     console.log('Global setup: Resetting D1 database...');
     try {
-      execSync('wrangler d1 migrations apply --local DB', { stdio: 'inherit' });
+      execSync('rm -rf .wrangler', { stdio: 'inherit' });
       console.log('D1 database reset complete.');
     } catch (error) {
       console.error('Failed to reset D1 database:', error);

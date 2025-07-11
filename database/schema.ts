@@ -7,4 +7,5 @@ export const tasks = sqliteTable("tasks", {
   completed: integer("completed", { mode: "boolean" }).notNull().default(false),
   createdAt: text("created_at").notNull(),
   due_date: text("due_date"),
+  priority: text("priority").default('medium').notNull(),
 });

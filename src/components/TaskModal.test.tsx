@@ -53,20 +53,21 @@ describe('TaskModal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
     expect(mockOnSave).toHaveBeenCalledTimes(1);
-    expect(mockOnSave).toHaveBeenCalledWith('Task to Save', 'Content to Save', null);
+    expect(mockOnSave).toHaveBeenCalledWith('Task to Save', 'Content to Save', null, 'medium');
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onSave with title, content, and due_date when Save is clicked', () => {
+  it('calls onSave with title, content, due_date, and priority when Save is clicked', () => {
     render(<TaskModal onClose={mockOnClose} onSave={mockOnSave} />);
     
     fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Task with Due Date' } });
     fireEvent.change(screen.getByPlaceholderText('Content (optional)'), { target: { value: 'Content here' } });
     fireEvent.change(screen.getByLabelText('Due Date'), { target: { value: '2025-12-31' } });
+    fireEvent.change(screen.getByLabelText('Priority'), { target: { value: 'high' } });
     
     fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-    expect(mockOnSave).toHaveBeenCalledWith('Task with Due Date', 'Content here', '2025-12-31');
+    expect(mockOnSave).toHaveBeenCalledWith('Task with Due Date', 'Content here', '2025-12-31', 'high');
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
 
@@ -83,8 +84,9 @@ describe('TaskModal', () => {
       title: 'Existing Task',
       content: 'Existing Content',
       completed: false,
-      created_at: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
       due_date: new Date('2025-11-20T12:00:00Z').toISOString(),
+      priority: 'low',
     };
 
     it('populates fields with existing task data', () => {
@@ -94,6 +96,7 @@ describe('TaskModal', () => {
       expect(screen.getByPlaceholderText('Title')).toHaveValue('Existing Task');
       expect(screen.getByPlaceholderText('Content (optional)')).toHaveValue('Existing Content');
       expect(screen.getByLabelText('Due Date')).toHaveValue('2025-11-20');
+      expect(screen.getByLabelText('Priority')).toHaveValue('low');
     });
 
     it('calls onSave with updated details', () => {
@@ -101,9 +104,10 @@ describe('TaskModal', () => {
 
       fireEvent.change(screen.getByPlaceholderText('Title'), { target: { value: 'Updated Task' } });
       fireEvent.change(screen.getByLabelText('Due Date'), { target: { value: '2026-01-15' } });
+      fireEvent.change(screen.getByLabelText('Priority'), { target: { value: 'high' } });
       fireEvent.click(screen.getByRole('button', { name: 'Save' }));
 
-      expect(mockOnSave).toHaveBeenCalledWith('Updated Task', 'Existing Content', '2026-01-15');
+      expect(mockOnSave).toHaveBeenCalledWith('Updated Task', 'Existing Content', '2026-01-15', 'high');
       expect(mockOnClose).toHaveBeenCalledTimes(1);
     });
   });

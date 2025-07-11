@@ -20,11 +20,11 @@ export default function TasksIndex() {
       .then((data: Todo[]) => setTasks(data));
   }, []);
 
-  const handleAddTask = async (title: string, content: string, due_date?: string | null) => {
+  const handleAddTask = async (title: string, content: string, due_date: string | null, priority: 'high' | 'medium' | 'low') => {
     const response = await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, content, due_date }),
+      body: JSON.stringify({ title, content, due_date, priority }),
     });
     const newTask: Todo = await response.json();
     setTasks(prevTasks => [...prevTasks, newTask]);

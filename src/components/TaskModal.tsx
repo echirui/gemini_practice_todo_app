@@ -3,7 +3,7 @@ import type { Todo } from '~/types/todo';
 
 interface TaskModalProps {
   onClose: () => void;
-  onSave: (title: string, content: string, dueDate: string | null) => void;
+  onSave: (title: string, content: string, dueDate: string | null, priority: 'high' | 'medium' | 'low') => void;
   task?: Todo | null;
 }
 
@@ -11,18 +11,20 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave, task }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [dueDate, setDueDate] = useState<string | null>(null);
+  const [priority, setPriority] = useState<'high' | 'medium' | 'low'>('medium');
 
   useEffect(() => {
     if (task) {
       setTitle(task.title);
       setContent(task.content || '');
       setDueDate(task.due_date ? task.due_date.split('T')[0] : null);
+      setPriority(task.priority || 'medium');
     }
   }, [task]);
 
   const handleSave = () => {
     if (title.trim()) {
-      onSave(title, content, dueDate);
+      onSave(title, content, dueDate, priority);
       onClose();
     }
   };
@@ -93,6 +95,19 @@ const TaskModal: React.FC<TaskModalProps> = ({ onClose, onSave, task }) => {
             onChange={(e) => setDueDate(e.target.value || null)}
             style={commonInputStyle}
           />
+        </div>
+        <div>
+          <label htmlFor="priority" style={{ color: 'white', marginBottom: '5px', display: 'block' }}>Priority</label>
+          <select
+            id="priority"
+            value={priority}
+            onChange={(e) => setPriority(e.target.value as 'high' | 'medium' | 'low')}
+            style={commonInputStyle}
+          >
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
           <button
