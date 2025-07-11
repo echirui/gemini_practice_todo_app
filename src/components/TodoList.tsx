@@ -8,14 +8,14 @@ interface TodoListProps {
   tasks: Todo[];
   onUpdateTask: (task: Todo) => void;
   onDeleteTask: (id: number) => void;
-  onAddTask: (title: string, content: string, dueDate: string | null) => void;
+  onAddTask: (title: string, content: string, dueDate: string | null, priority: 'high' | 'medium' | 'low') => void;
 }
 
 const TodoList: React.FC<TodoListProps> = ({ tasks, onUpdateTask, onDeleteTask, onAddTask }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleAddTask = (title: string, content: string, dueDate: string | null) => {
-    onAddTask(title, content, dueDate);
+  const handleAddTask = (title: string, content: string, dueDate: string | null, priority: 'high' | 'medium' | 'low') => {
+    onAddTask(title, content, dueDate, priority);
     setIsModalOpen(false);
   };
 

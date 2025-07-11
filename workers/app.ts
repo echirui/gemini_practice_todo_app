@@ -32,10 +32,10 @@ app.get("/api/tasks", async (c) => {
 
 app.post("/api/tasks", async (c) => {
   const db = drizzle(c.env.DB, { schema });
-  const { title, content, due_date } = await c.req.json();
+  const { title, content, due_date, priority } = await c.req.json();
   const newTask = await db
     .insert(schema.tasks)
-    .values({ title, content, createdAt: new Date().toISOString(), due_date })
+    .values({ title, content, createdAt: new Date().toISOString(), due_date, priority })
     .returning();
   return c.json(newTask[0]);
 });
@@ -43,10 +43,10 @@ app.post("/api/tasks", async (c) => {
 app.put("/api/tasks/:id", async (c) => {
   const db = drizzle(c.env.DB, { schema });
   const id = Number(c.req.param("id"));
-  const { completed, due_date } = await c.req.json();
+  const { completed, due_date, title, content, priority } = await c.req.json();
   const updatedTask = await db
     .update(schema.tasks)
-    .set({ completed, due_date })
+    .set({ completed, due_date, title, content, priority })
     .where(eq(schema.tasks.id, id))
     .returning();
   return c.json(updatedTask[0]);

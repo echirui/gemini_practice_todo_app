@@ -15,6 +15,7 @@ describe('TaskItem', () => {
     completed: false,
     createdAt: new Date().toISOString(),
     due_date: null,
+    priority: 'medium' as const,
   };
 
   beforeEach(() => {
@@ -23,12 +24,27 @@ describe('TaskItem', () => {
 
   afterEach(cleanup);
 
-  it('renders todo title and checkbox', () => {
+  it('renders todo title, checkbox, and medium priority', () => {
     render(<TaskItem todo={baseTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
 
     expect(screen.getByText('Test Todo')).toBeInTheDocument();
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Delete task' })).toBeInTheDocument();
+    expect(screen.getByText('(Medium)')).toBeInTheDocument();
+  });
+
+  it('displays high priority correctly', () => {
+    const highPriorityTodo = { ...baseTodo, priority: 'high' as const };
+    render(<TaskItem todo={highPriorityTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+    expect(screen.getByText('(High)')).toBeInTheDocument();
+    expect(screen.getByText('(High)')).toHaveStyle('color: rgb(255, 0, 0)');
+  });
+
+  it('displays low priority correctly', () => {
+    const lowPriorityTodo = { ...baseTodo, priority: 'low' as const };
+    render(<TaskItem todo={lowPriorityTodo} onToggle={mockOnToggle} onDelete={mockOnDelete} />);
+    expect(screen.getByText('(Low)')).toBeInTheDocument();
+    expect(screen.getByText('(Low)')).toHaveStyle('color: rgb(0, 128, 0)');
   });
 
   it('calls onToggle when checkbox is clicked', () => {

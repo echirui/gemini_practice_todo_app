@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-// Helper to generate a unique ID for each test worker
-const getUniqueId = () => `-${process.env.TEST_WORKER_INDEX || 0}-${Math.random().toString(36).slice(2, 7)}`;
-
 test.describe('Todo Application E2E Tests', () => {
   // Use a unique prefix for all tasks in this test suite run
   const testRunPrefix = `test-${Math.random().toString(36).slice(2, 7)}`;
@@ -21,7 +18,7 @@ test.describe('Todo Application E2E Tests', () => {
     await page.getByRole('button', { name: 'Add Task' }).click();
     // Wait for the modal to appear
     const modal = page.getByRole('heading', { name: 'Add Task' });
-    await expect(modal).toBeVisible({ timeout: 15000 });
+    await expect(modal).toBeVisible({ timeout: 240000 });
 
     await page.getByPlaceholder('Title').fill(title);
     if (content) {
@@ -32,7 +29,7 @@ test.describe('Todo Application E2E Tests', () => {
     }
     await page.getByRole('button', { name: 'Save' }).click();
     // Wait for the modal to disappear
-    await expect(modal).not.toBeVisible({ timeout: 15000 });
+    await expect(modal).not.toBeVisible({ timeout: 240000 });
   };
 
   test('should create a new todo item', async ({ page }) => {

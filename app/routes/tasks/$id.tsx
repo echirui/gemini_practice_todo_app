@@ -18,9 +18,10 @@ export default function TaskDetail() {
     }
   }, [id]);
 
-  const handleUpdateTask = async (title: string, content: string, dueDate: string | null) => {
+<<<<<<< HEAD
+  const handleUpdateTask = async (title: string, content: string, dueDate: string | null, priority: 'high' | 'medium' | 'low') => {
     if (!task) return;
-    const updatedTask = { ...task, title, content, due_date: dueDate };
+    const updatedTask = { ...task, title, content, due_date: dueDate, priority };
     const response = await fetch(`/api/tasks/${task.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
