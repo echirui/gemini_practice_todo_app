@@ -18,7 +18,6 @@ export default function TaskDetail() {
     }
   }, [id]);
 
-<<<<<<< HEAD
   const handleUpdateTask = async (title: string, content: string, dueDate: string | null, priority: 'high' | 'medium' | 'low') => {
     if (!task) return;
     const updatedTask = { ...task, title, content, due_date: dueDate, priority };
